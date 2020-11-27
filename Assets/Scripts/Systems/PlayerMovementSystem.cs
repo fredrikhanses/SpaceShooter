@@ -2,7 +2,6 @@
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace Shooter.ECS
 {
@@ -20,6 +19,8 @@ namespace Shooter.ECS
             {
                 translation.Value.x = math.clamp(translation.Value.x + (moveData.speed * moveData.xDirection * deltaTime), leftBound, rightBound);
                 translation.Value.z = math.clamp(translation.Value.z + (moveData.speed * moveData.zDirection * deltaTime), bottomBound, topBound);
+                GameManager.gameManager.playerTranslation.x = translation.Value.x;
+                GameManager.gameManager.playerTranslation.z = translation.Value.z;
             }).Run();
             return default;
         }

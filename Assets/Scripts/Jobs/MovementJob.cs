@@ -4,7 +4,7 @@ using UnityEngine.Jobs;
 
 namespace Shooter.ECS
 {
-    [BurstCompile]
+    //[BurstCompile]
     public struct MovementJob : IJobParallelForTransform
     {
         public float moveSpeed;

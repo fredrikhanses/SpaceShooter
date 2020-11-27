@@ -8,24 +8,25 @@ using Unity.Transforms;
 
 namespace Shooter.ECS
 {
-    public class MovementSystem : SystemBase
+    public class PlayerBulletMovementSystem : SystemBase
     {
         EntityQuery group;
 
         protected override void OnCreate()
         {
             // Cached access to a set of ComponentData based on a specific query
-            group = GetEntityQuery(typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>(), typeof(RenderBounds));
+            group = GetEntityQuery(typeof(BulletTag), typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>());
         }
 
-        [BurstCompile]
+        //[BurstCompile]
         struct MovementJob : IJobChunk
         {
             public float topBound;
             public float bottomBound;
             public float deltaTime;
             public ComponentTypeHandle<Translation> TranslationTypeHandle;
-            /*[ReadOnly]*/ public ComponentTypeHandle<Rotation> RotationTypeHandle;
+            /*[ReadOnly]*/
+            public ComponentTypeHandle<Rotation> RotationTypeHandle;
             [ReadOnly] public ComponentTypeHandle<MoveSpeed> MoveSpeedTypeHandle;
 
             //public void Execute(ref Translation position, [ReadOnly] ref Rotation rotation, [ReadOnly] ref MoveSpeed moveSpeed)
@@ -50,10 +51,10 @@ namespace Shooter.ECS
                     Rotation rotation = chunkRotations[i];
                     MoveSpeed moveSpeed = chunkMoveSpeeds[i];
                     float3 value = translation.Value;
-                    value += deltaTime * moveSpeed.Value * new float3(0.0f, 0.0f, -1.0f);//math.forward(rotation.Value);
-                    if (value.z < bottomBound)
+                    value += deltaTime * moveSpeed.Value * new float3(0.0f, 0.0f, 1.0f);//math.forward(rotation.Value);
+                    if (value.z == topBound)
                     {
-                        value.z = topBound;
+                        value.z = topBound + 1;
                     }
                     chunkTranslations[i] = new Translation
                     {
@@ -82,9 +83,6 @@ namespace Shooter.ECS
         // OnUpdate runs on the main thread.
         protected override void OnUpdate()
         {
-            // Explicitly declare:
-            // - Read-Write access to Rotation
-            // - Read-Only access to RotationSpeed_IJobChunk
             ComponentTypeHandle<Translation> translationType = GetComponentTypeHandle<Translation>();
             ComponentTypeHandle<Rotation> rotationType = GetComponentTypeHandle<Rotation>();
             ComponentTypeHandle<MoveSpeed> moveSpeedType = GetComponentTypeHandle<MoveSpeed>(true);
