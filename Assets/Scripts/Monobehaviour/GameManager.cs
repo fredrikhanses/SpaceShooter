@@ -117,8 +117,8 @@ namespace Shooter.ECS
                 float xValue = UnityEngine.Random.Range(leftBound, rightBound);
                 float zValue = UnityEngine.Random.Range(0.0f, 10.0f);
                 entityManager.SetComponentData(entities[i], new Translation { Value = new float3(xValue, 0.0f, topBound + zValue) });
-                entityManager.SetComponentData(entities[i], new Rotation { Value = new quaternion(0.0f, 1.0f, 0.0f, 0.0f) });
-                entityManager.SetComponentData(entities[i], new MoveSpeed { Value = enemySpeed });
+                //entityManager.SetComponentData(entities[i], new Rotation { Value = new quaternion(0.0f, 1.0f, 0.0f, 0.0f) });
+                //entityManager.SetComponentData(entities[i], new MoveSpeed { Value = enemySpeed });
                 //Vector3 position = new Vector3(xValue, 0.0f, zValue + topBound);
                 //Quaternion rotation = Quaternion.Euler(0.0f, 180f, 0.0f);
                 //GameObject enemyShip = Instantiate(enemyShipPrefab, position, rotation);
