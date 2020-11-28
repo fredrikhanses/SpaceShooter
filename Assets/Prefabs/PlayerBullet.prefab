@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8501626209815462092}
   - component: {fileID: -7084057943609913837}
   - component: {fileID: 2254342394433131543}
+  - component: {fileID: -5305835184592455329}
   m_Layer: 0
   m_Name: PlayerBullet
   m_TagString: Untagged
@@ -132,7 +133,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6096415493983463621}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -153,3 +154,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5305835184592455329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6096415493983463621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6fc959f3e56d64fb2cc615559efab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

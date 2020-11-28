@@ -29,8 +29,7 @@ namespace Shooter.ECS
         {
             base.OnCreate();
             // Find the ECB system once and store it for later usage
-            m_EndSimulationEcbSystem = World
-                .GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
@@ -39,26 +38,25 @@ namespace Shooter.ECS
             // to use it from a parallel job.
             float deltaTime = Time.DeltaTime;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer().AsParallelWriter();
-            Entities
-                .ForEach((Entity entity, int entityInQueryIndex, ref LifeTimeData lifetime) =>
+            Entities.ForEach((Entity entity, int entityInQueryIndex, ref LifeTimeData lifetime) =>
+            {
+                // Track the lifetime of an entity and destroy it once
+                // the lifetime reaches zero
+                if (lifetime.lifeTimeRemaining <= 0)
                 {
-                    // Track the lifetime of an entity and destroy it once
-                    // the lifetime reaches zero
-                    if (lifetime.lifeTimeRemaining <= 0)
-                    {
-                        // pass the entityInQueryIndex to the operation so
-                        // the ECB can play back the commands in the right
-                        // order
-                        ecb.DestroyEntity(entityInQueryIndex, entity);
-                    }
-                    else
-                    {
-                        lifetime.lifeTimeRemaining -= deltaTime;
-                    }
-                }).ScheduleParallel();
+                    // pass the entityInQueryIndex to the operation so
+                    // the ECB can play back the commands in the right
+                    // order
+                    ecb.DestroyEntity(entityInQueryIndex, entity);
+                }
+                else
+                {
+                    lifetime.lifeTimeRemaining -= deltaTime;
+                }
+            }).ScheduleParallel();
 
             // Make sure that the ECB system knows about our job
-            m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
+            m_EndSimulationEcbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }

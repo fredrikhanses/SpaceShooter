@@ -29,13 +29,13 @@ namespace Shooter.ECS
         public int enemyShipIncrement = 1;
         //FPS fps;
         private int count;
+        private float timer = 2.0f;
 
         private void Awake()
         {
             if (gameManager != null && gameManager != this)
             {
                 Destroy(gameObject);
-                return;
             }
             gameManager = this;
         }
@@ -78,6 +78,16 @@ namespace Shooter.ECS
             {
                 AddShips(enemyShipIncrement);
             }
+            if (Input.GetMouseButtonDown(2))
+            {
+                EnemyShoot();
+            }
+            timer -= Time.deltaTime;
+            if (timer <= 0.0f)
+            {
+                EnemyShoot(count);
+                timer = 2.0f;
+            }
             //moveJob = new MovementJob()
             //{
             //    moveSpeed = enemySpeed,
@@ -102,6 +112,28 @@ namespace Shooter.ECS
             Entity playerBulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(playerBulletPrefab, settings);
             Entity playerBullet = entityManager.Instantiate(playerBulletEntityPrefab);
             entityManager.SetComponentData(playerBullet, new Translation { Value = playerTranslation + new float3(0.0f, 0.0f, 1.0f) });
+        }
+
+        public void EnemyShoot()
+        {
+            Entity enemyBulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyBulletPrefab, settings);
+            Entity enemyBullet = entityManager.Instantiate(enemyBulletEntityPrefab);
+            entityManager.SetComponentData(enemyBullet, new Translation { Value = playerTranslation + new float3(0.0f, 0.0f, 1.0f) });
+        }
+
+        private void EnemyShoot(int amount)
+        {
+            Entity enemyBulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyBulletPrefab, settings);
+            NativeArray<Entity> entities;
+            entities = entityManager.Instantiate(enemyBulletEntityPrefab, amount, Allocator.Temp);
+            for (int i = 0; i < amount; i++)
+            {
+                float xValue = UnityEngine.Random.Range(leftBound, rightBound);
+                float zValue = UnityEngine.Random.Range(0.0f, 10.0f);
+                entityManager.SetComponentData(entities[i], new Translation { Value = new float3(xValue, 0.0f, topBound + zValue) });
+                entityManager.SetComponentData(entities[i], new MoveSpeed { Value = math.clamp(zValue * 10.0f, 20.0f, 100.0f) });
+            }
+            entities.Dispose();
         }
 
         private void AddShips(int amount)

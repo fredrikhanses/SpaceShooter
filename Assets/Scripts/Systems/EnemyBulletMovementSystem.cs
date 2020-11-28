@@ -8,14 +8,14 @@ using Unity.Transforms;
 
 namespace Shooter.ECS
 {
-    public class PlayerBulletMovementSystem : SystemBase
+    public class EnemyBulletMovementSystem : SystemBase
     {
         EntityQuery group;
 
         protected override void OnCreate()
         {
             // Cached access to a set of ComponentData based on a specific query
-            group = GetEntityQuery(typeof(PlayerTag), typeof(BulletTag), typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>());
+            group = GetEntityQuery(typeof(EnemyTag), typeof(BulletTag), typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>());
         }
 
         //[BurstCompile]
@@ -51,10 +51,10 @@ namespace Shooter.ECS
                     Rotation rotation = chunkRotations[i];
                     MoveSpeed moveSpeed = chunkMoveSpeeds[i];
                     float3 value = translation.Value;
-                    value += deltaTime * moveSpeed.Value * new float3(0.0f, 0.0f, 1.0f);//math.forward(rotation.Value);
+                    value += deltaTime * moveSpeed.Value * new float3(0.0f, 0.0f, -1.0f);//math.forward(rotation.Value);
                     if (value.z == topBound)
                     {
-                        value.z = topBound + 1;
+                        value.z = topBound - 1;
                     }
                     chunkTranslations[i] = new Translation
                     {

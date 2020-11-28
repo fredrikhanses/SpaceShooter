@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8501626209815462092}
   - component: {fileID: -7084057943609913837}
   - component: {fileID: 2254342394433131543}
+  - component: {fileID: -1267795279100101766}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8009635970a6a0418426a4e6eef21b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6096415493983463621, guid: e6c4ebb8b24dbd24fb10540f3db5a42c, type: 3}
 --- !u!114 &6385751425285365833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +120,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6096415493983463621}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -139,3 +141,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-1267795279100101766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6096415493983463621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2f9e96176562f4c877cd41ae28b434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 1

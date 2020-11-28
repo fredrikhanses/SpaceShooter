@@ -15,7 +15,7 @@ namespace Shooter.ECS
         protected override void OnCreate()
         {
             // Cached access to a set of ComponentData based on a specific query
-            group = GetEntityQuery(typeof(EnemyTag), typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>());
+            group = GetEntityQuery(typeof(EnemyTag), typeof(ShootDelayData), typeof(Translation), typeof(Rotation)/*ComponentType.ReadOnly<Rotation>()*/, ComponentType.ReadOnly<MoveSpeed>());
         }
 
         //[BurstCompile]
